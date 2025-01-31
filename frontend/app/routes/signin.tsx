@@ -32,30 +32,68 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <label htmlFor="name">Email</label>
-        <Input
-          size="large"
-          required
-          placeholder="Email"
-          type="email"
-          ref={emailRef}
-        />
+    <div className="flex items-center justify-center">
+      <div className="max-w-md w-full space-y-8 p-8 bg-background-dark rounded-lg shadow-lg">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground-dark">
+            Sign in to your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-muted-foreground-dark">
+            Or{" "}
+            <a
+              href="/signup"
+              className="font-medium text-primary-dark hover:text-muted-foreground-dark"
+            >
+              create a new account
+            </a>
+          </p>
+        </div>
+        <div className="mt-8 space-y-6">
+          <div className="space-y-4">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-foreground-dark"
+              >
+                Email address
+              </label>
+              <Input
+                size="large"
+                required
+                placeholder="Enter your email"
+                type="email"
+                ref={emailRef}
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-foreground-dark"
+              >
+                Password
+              </label>
+              <Input
+                size="large"
+                required
+                placeholder="Enter your password"
+                ref={passwordRef}
+                type="password"
+                className="mt-1"
+              />
+            </div>
+          </div>
+
+          <Button
+            type="primary"
+            size="large"
+            onClick={handleSignIn}
+            className="w-full flex justify-center py-2 px-4"
+          >
+            Sign In
+          </Button>
+        </div>
       </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <Input
-          size="large"
-          required
-          placeholder="Password"
-          ref={passwordRef}
-          type="password"
-        />
-      </div>
-      <Button type="primary" size="large" onClick={handleSignIn}>
-        Sign In
-      </Button>
     </div>
   );
 }
