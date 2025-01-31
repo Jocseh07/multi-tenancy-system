@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-light: #eaeaea;
+  --color-dark: #181818;
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(240 10% 3.9%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(240 10% 3.9%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(240 10% 3.9%);
+  --color-primary: hsl(240 5.9% 10%);
+  --color-primary-foreground: hsl(0 0% 98%);
+  --color-secondary: hsl(240 4.8% 95.9%);
+  --color-secondary-foreground: hsl(240 5.9% 10%);
+  --color-muted: hsl(240 4.8% 95.9%);
+  --color-muted-foreground: hsl(240 3.8% 46.1%);
+  --color-accent: hsl(240 4.8% 95.9%);
+  --color-accent-foreground: hsl(240 5.9% 10%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+  --color-border: hsl(240 5.9% 90%);
+  --color-input: hsl(240 5.9% 90%);
+  --color-ring: hsl(240 5.9% 10%);
+
+  --color-background-dark: hsl(240 10% 3.9%);
+  --color-foreground-dark: hsl(0 0% 98%);
+  --color-card-dark: hsl(240 10% 3.9%);
+  --color-card-foreground-dark: hsl(0 0% 98%);
+  --color-popover-dark: hsl(240 10% 3.9%);
+  --color-popover-foreground-dark: hsl(0 0% 98%);
+  --color-primary-dark: hsl(0 0% 98%);
+  --color-primary-foreground-dark: hsl(240 5.9% 10%);
+  --color-secondary-dark: hsl(240 3.7% 15.9%);
+  --color-secondary-foreground-dark: hsl(0 0% 98%);
+  --color-muted-dark: hsl(240 3.7% 15.9%);
+  --color-muted-foreground-dark: hsl(240 5% 64.9%);
+  --color-accent-dark: hsl(240 3.7% 15.9%);
+  --color-accent-foreground-dark: hsl(0 0% 98%);
+  --color-destructive-dark: hsl(0 62.8% 30.6%);
+  --color-destructive-foreground-dark: hsl(0 0% 98%);
+  --color-border-dark: hsl(240 3.7% 15.9%);
+  --color-input-dark: hsl(240 3.7% 15.9%);
+  --color-ring-dark: hsl(240 4.9% 83.9%);
+}
+
+html,
+body {
+  @apply bg-background dark:bg-background-dark;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
