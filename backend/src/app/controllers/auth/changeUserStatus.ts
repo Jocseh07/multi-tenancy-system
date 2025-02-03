@@ -45,6 +45,16 @@ export const changeUserStatus = catchAsyncError<
     return;
   }
 
+  if (user.status === "REJECTED") {
+    next(new AppError("User is already rejected", 400));
+    return;
+  }
+
+  if (user.role === UserRole.SUPER_ADMIN) {
+    next(new AppError("Super Admin cannot be changed", 400));
+    return;
+  }
+
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: { tenantId, role, status: userStatus },

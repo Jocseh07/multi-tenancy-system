@@ -3,20 +3,21 @@ import jwt from "jsonwebtoken";
 import { AuthRequest, TokenPayload } from "../../types/types";
 import { catchAsyncError } from "../../utils/catchAsyncError";
 import { UserRole } from "@prisma/client";
+import { AppError } from "../../utils/appError";
 
 export const authenticateUser = catchAsyncError<AuthRequest, Response>(
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
     if (!token || !token.startsWith("Bearer")) {
-      res.status(401).json({ message: "Unauthorized: No token provided" });
+      next(new AppError("Unauthorized: No token provided", 401));
       return;
     }
 
     const tokenString = token.split(" ")[1];
 
     if (!tokenString) {
-      res.status(401).json({ message: "Unauthorized: No token provided" });
+      next(new AppError("Unauthorized: No token provided", 401));
       return;
     }
 

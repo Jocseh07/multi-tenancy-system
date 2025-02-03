@@ -35,6 +35,7 @@ model User {
 model Task {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   title        String
+  description  String
   status       TaskStatus @default(TODO)
   assignedTo   String?    @db.ObjectId
   assignedUser User?      @relation(fields: [assignedTo], references: [id])
@@ -43,10 +44,8 @@ model Task {
 }
 
 enum UserRole {
-  SUPERADMIN
-  TENANT_OWNER
+  SUPER_ADMIN
   TENANT_ADMIN
-  MANAGER
   EMPLOYEE
 }
 

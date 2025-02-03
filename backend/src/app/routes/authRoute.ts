@@ -11,27 +11,19 @@ export const authRouter = express.Router();
 
 authRouter.post("/signup", signUp);
 authRouter.post("/signin", login);
-// authRouter.get(
-//   "/users",
-//   authenticateUser,
-//   authorizeRoles([
-//     UserRole.SUPERADMIN,
-//     UserRole.TENANT_OWNER,
-//     UserRole.TENANT_ADMIN,
-//   ]),
-//   getAllUsers
-// );
+authRouter.get(
+  "/users",
+  authenticateUser,
+  authorizeRoles([UserRole.SUPER_ADMIN, UserRole.TENANT_ADMIN]),
+  getAllUsers
+);
 authRouter.patch(
   "/admin/status/:userId",
-  // authenticateUser,
-  // authorizeRoles([
-  //   UserRole.SUPERADMIN,
-  //   UserRole.TENANT_OWNER,
-  //   UserRole.TENANT_ADMIN,
-  // ]),
+  authenticateUser,
+  authorizeRoles([UserRole.SUPER_ADMIN, UserRole.TENANT_ADMIN]),
   changeUserStatus
 );
 
 // For manual testing only
-authRouter.get("/users", getAllUsers);
-authRouter.delete("/users/delete/:userId", deleteUser);
+// authRouter.get("/users", getAllUsers);
+// authRouter.delete("/users/delete/:userId", deleteUser);

@@ -20,7 +20,7 @@ export const login = catchAsyncError<
 
   const user = await prisma.user.findUnique({
     where: {
-      email: req.body.email,
+      email,
     },
   });
 
@@ -29,10 +29,7 @@ export const login = catchAsyncError<
     return;
   }
 
-  const isPasswordCorrect = await bcrypt.compare(
-    req.body.password,
-    user.password
-  );
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!isPasswordCorrect) {
     next(new AppError("Invalid Email or Password", 401));
