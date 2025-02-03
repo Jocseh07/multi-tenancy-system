@@ -12,16 +12,6 @@ export const tenantRouter = express.Router();
 
 tenantRouter.use(authenticateUser);
 
-// tenantRouter
-//   .route("/")
-//   .get(getAllTenants)
-//   .post(checkCreateTenantBody, createTenant);
-// tenantRouter
-//   .route("/:tenantId")
-//   .get(getTenantById)
-//   .patch(checkTenantId, checkUpdateTenantBody, updateTenant)
-//   .delete(checkTenantId, deleteTenant);
-
 tenantRouter
   .get("/", authorizeRoles([UserRole.SUPER_ADMIN]), getAllTenants)
   .post("/", authorizeRoles([UserRole.SUPER_ADMIN]), createTenant);

@@ -5,7 +5,7 @@ import { getAllUsers } from "../controllers/auth/getAllUsers";
 import { changeUserStatus } from "../controllers/auth/changeUserStatus";
 import { authenticateUser, authorizeRoles } from "../middleware/middleware";
 import { UserRole } from "@prisma/client";
-import { deleteUser } from "../controllers/auth/deleteUser";
+// import { deleteUser } from "../controllers/auth/deleteUser";
 
 export const authRouter = express.Router();
 

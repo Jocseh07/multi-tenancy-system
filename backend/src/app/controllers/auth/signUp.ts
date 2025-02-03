@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { catchAsyncError } from "../../../utils/catchAsyncError";
 import { prisma } from "../../../../server";
 import { type User } from "@prisma/client";

@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { catchAsyncError } from "../../../utils/catchAsyncError";
 import { prisma } from "../../../../server";
-import { UserRole, type User, type Task } from "@prisma/client";
+import { UserRole, type Task } from "@prisma/client";
 import { AuthRequest } from "../../../types/types";
 import { AppError } from "../../../utils/appError";
 

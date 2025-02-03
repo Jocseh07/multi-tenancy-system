@@ -1,5 +1,5 @@
 import { Task } from "@prisma/client";
-import { AuthRequest, TokenPayload } from "../../../types/types";
+import { TokenPayload } from "../../../types/types";
 import { catchAsyncError } from "../../../utils/catchAsyncError";
 import { Request, Response } from "express";
 import { prisma } from "../../../../server";
