@@ -26,8 +26,8 @@ export const changeUserStatus = catchAsyncError<
   const { userId } = req.params;
   const { tenantId, role, userStatus } = req.body;
 
-  if (!tenantId || !role) {
-    next(new AppError("Tenant and role required", 400));
+  if (!tenantId || !role || !userStatus) {
+    next(new AppError("Missing required fields", 400));
     return;
   }
 
