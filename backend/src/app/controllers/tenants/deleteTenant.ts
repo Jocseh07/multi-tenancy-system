@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { catchAsyncError } from "../../../utils/catchAsyncError";
 import { prisma } from "../../../../server";
-import { type Tenant } from "@prisma/client";
 import { AppError } from "../../../utils/appError";
 
 type DeleteTenantParams = {
