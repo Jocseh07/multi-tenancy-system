@@ -13,37 +13,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Tenant {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
+  name  String @unique
   users User[]
   tasks Task[]
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  name      String
-  role      Role
-  tenantId  String   @db.ObjectId
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  tasks     Task[]
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  email    String     @unique
+  password String
+  name     String
+  role     UserRole?
+  status   UserStatus @default(PENDING)
+  tenantId String?    @db.ObjectId
+  tenant   Tenant?    @relation(fields: [tenantId], references: [id])
+  tasks    Task[]
 }
 
 model Task {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
-  status     TaskStatus @default(TODO)
-  assignedTo String?   @db.ObjectId
-  assignedUser User?    @relation(fields: [assignedTo], references: [id])
-  tenantId   String    @db.ObjectId
-  tenant     Tenant    @relation(fields: [tenantId], references: [id])
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  status       TaskStatus @default(TODO)
+  assignedTo   String?    @db.ObjectId
+  assignedUser User?      @relation(fields: [assignedTo], references: [id])
+  tenantId     String     @db.ObjectId
+  tenant       Tenant     @relation(fields: [tenantId], references: [id])
 }
 
-enum Role {
-  ADMIN
+enum UserRole {
+  SUPERADMIN
+  TENANT_OWNER
+  TENANT_ADMIN
   MANAGER
   EMPLOYEE
 }
@@ -52,4 +54,10 @@ enum TaskStatus {
   TODO
   IN_PROGRESS
   DONE
+}
+
+enum UserStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

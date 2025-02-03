@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-import { tenantRouter } from "./src/app/routes/tenantRoute";
 import { AppError } from "./src/utils/appError";
 import { globalErrorHandler } from "./src/utils/globalErrorHandler";
 import { authRouter } from "./src/app/routes/authRoute";
@@ -18,7 +17,6 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-app.use("/api/v1/tenants", tenantRouter);
 app.use("/api/v1/auth", authRouter);
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
