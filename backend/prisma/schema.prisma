@@ -13,24 +13,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tenant {
-  tenantId    String         @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  email       String         @unique
-  phone       String?
-  active      Boolean        @default(true)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
 
-  user  User @relation(fields: [userId], references: [userId])
-  userId String @db.ObjectId
+model Tenant {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  users User[]
+  tasks Task[]
 }
 
 model User {
-  userId      String         @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  email       String         @unique
-  password    String
-  userTenants Tenant[]
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  name      String
+  role      Role
+  tenantId  String   @db.ObjectId
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tasks     Task[]
 }
 
+model Task {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  status     TaskStatus @default(TODO)
+  assignedTo String?   @db.ObjectId
+  assignedUser User?    @relation(fields: [assignedTo], references: [id])
+  tenantId   String    @db.ObjectId
+  tenant     Tenant    @relation(fields: [tenantId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
