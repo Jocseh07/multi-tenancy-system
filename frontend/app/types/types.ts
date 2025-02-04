@@ -22,3 +22,14 @@ export type User = {
   role: UserRole | null;
   status: UserStatus;
 };
+
+export type Task = {
+  id: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  assignedTo: string | null;
+  tenantId: string;
+};
+
+export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE";
