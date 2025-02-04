@@ -5,12 +5,12 @@ import bcrypt from "bcryptjs";
 import { User } from "@prisma/client";
 import { createSendToken } from "./createSendToken";
 import { prisma } from "../../../../server";
-
+import { AuthResponseBody } from "../../../types/types";
 type LoginBody = Pick<User, "email" | "password">;
 
 export const login = catchAsyncError<
   Request<{}, {}, LoginBody>,
-  Response<User>
+  Response<AuthResponseBody>
 >(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {

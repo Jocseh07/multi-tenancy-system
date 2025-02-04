@@ -5,12 +5,14 @@ import { getAllUsers } from "../controllers/auth/getAllUsers";
 import { changeUserStatus } from "../controllers/auth/changeUserStatus";
 import { authenticateUser, authorizeRoles } from "../middleware/middleware";
 import { UserRole } from "@prisma/client";
+import { signOut } from "../controllers/auth/signOut";
 // import { deleteUser } from "../controllers/auth/deleteUser";
 
 export const authRouter = express.Router();
 
 authRouter.post("/signup", signUp);
 authRouter.post("/signin", login);
+authRouter.post("/signout", signOut);
 authRouter.get(
   "/users",
   authenticateUser,

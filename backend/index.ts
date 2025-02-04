@@ -6,10 +6,19 @@ import { authRouter } from "./src/app/routes/authRoute";
 import rateLimit from "express-rate-limit";
 import { tenantRouter } from "./src/app/routes/tenantRoute";
 import { taskRouter } from "./src/app/routes/taskRoute";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
-app.use(express.json());
 app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(cookieParser());
 
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,

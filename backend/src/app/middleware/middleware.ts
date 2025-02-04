@@ -7,30 +7,46 @@ import { AppError } from "../../utils/appError";
 
 export const authenticateUser = catchAsyncError<AuthRequest, Response>(
   async (req: AuthRequest, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const token = req.cookies.jwt;
 
-    if (!token || !token.startsWith("Bearer")) {
+    if (!token) {
       next(new AppError("Unauthorized: No token provided", 401));
       return;
     }
 
-    const tokenString = token.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
-    if (!tokenString) {
-      next(new AppError("Unauthorized: No token provided", 401));
-      return;
-    }
-
-    const decoded = jwt.verify(
-      tokenString,
-      process.env.JWT_SECRET!
-    ) as TokenPayload;
-
-    // Attach user info to the request object
-    req.user = decoded;
+    req.user = decoded as TokenPayload;
     next();
   }
 );
+
+// export const authenticateUser = catchAsyncError<AuthRequest, Response>(
+//   async (req: AuthRequest, res: Response, next: NextFunction) => {
+//     const token = req.headers.authorization;
+
+//     if (!token || !token.startsWith("Bearer")) {
+//       next(new AppError("Unauthorized: No token provided", 401));
+//       return;
+//     }
+
+//     const tokenString = token.split(" ")[1];
+
+//     if (!tokenString) {
+//       next(new AppError("Unauthorized: No token provided", 401));
+//       return;
+//     }
+
+//     const decoded = jwt.verify(
+//       tokenString,
+//       process.env.JWT_SECRET!
+//     ) as TokenPayload;
+
+//     // Attach user info to the request object
+//     req.user = decoded;
+//     next();
+//   }
+// );
 
 // Middleware for role-based authorization
 export const authorizeRoles = (allowedRoles: UserRole[]) => {

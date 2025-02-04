@@ -1,11 +1,12 @@
 import { Response } from "express";
 import { signToken } from "./signToken";
 import { User } from "@prisma/client";
+import { AuthResponseBody } from "../../../types/types";
 
 export const createSendToken = (
   user: User,
   statusCode: number,
-  res: Response
+  res: Response<AuthResponseBody>
 ) => {
   const token = signToken({
     userId: user.id,
@@ -19,9 +20,17 @@ export const createSendToken = (
     secure: process.env.NODE_ENV === "production",
     maxAge: 1 * 24 * 60 * 60 * 1000,
   });
+  const requiredData = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    tenantId: user.tenantId,
+    status: user.status,
+  };
   res.status(statusCode).json({
-    data: user,
-    token,
-    status: "success",
+    data: requiredData,
+    // token,
+    // status: "success",
   });
 };

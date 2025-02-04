@@ -11,3 +11,18 @@ export interface TokenPayload {
   tenantId?: string;
   status: UserStatus;
 }
+
+type ResponseData = {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole | null;
+  tenantId: string | null;
+  status: UserStatus;
+};
+
+export type AuthResponseBody = {
+  data: ResponseData;
+  // token: string;
+  // status: "success";
+};

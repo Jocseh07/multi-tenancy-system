@@ -5,12 +5,12 @@ import { type User } from "@prisma/client";
 import { AppError } from "../../../utils/appError";
 import { createSendToken } from "./createSendToken";
 import bcrypt from "bcryptjs";
-
+import { AuthResponseBody } from "../../../types/types";
 type CreateUserBody = Pick<User, "name" | "email" | "password">;
 
 export const signUp = catchAsyncError<
   Request<{}, {}, CreateUserBody>,
-  Response<User>
+  Response<AuthResponseBody>
 >(async (req, res, next) => {
   const { name, email, password } = req.body;
 
