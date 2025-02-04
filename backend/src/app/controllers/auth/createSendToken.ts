@@ -20,8 +20,9 @@ export const createSendToken = (
     secure: process.env.NODE_ENV === "production",
     maxAge: 1 * 24 * 60 * 60 * 1000,
   });
+  const userId = user.id.toString();
   const requiredData = {
-    id: user.id,
+    id: userId,
     name: user.name,
     email: user.email,
     role: user.role,

@@ -3,10 +3,11 @@ import { catchAsyncError } from "../../../utils/catchAsyncError";
 import { AppError } from "../../../utils/appError";
 import { prisma } from "../../../../server";
 import { User, UserRole, UserStatus } from "@prisma/client";
+import { ObjectId } from "mongodb";
 
 type ChangeUserStatusBody = {
-  tenantId: string;
-  role: UserRole;
+  tenantId?: string;
+  role?: UserRole;
   userStatus: UserStatus;
 };
 
@@ -25,8 +26,9 @@ export const changeUserStatus = catchAsyncError<
 >(async (req, res, next) => {
   const { userId } = req.params;
   const { tenantId, role, userStatus } = req.body;
+  console.log(userId, tenantId, role, userStatus);
 
-  if (!tenantId || !role || !userStatus) {
+  if (!userStatus) {
     next(new AppError("Missing required fields", 400));
     return;
   }
@@ -55,9 +57,17 @@ export const changeUserStatus = catchAsyncError<
     return;
   }
 
+  const updateData: ChangeUserStatusBody = {
+    role,
+    userStatus: userStatus,
+  };
+  if (tenantId) {
+    updateData.tenantId = tenantId;
+  }
+
   const updatedUser = await prisma.user.update({
     where: { id: userId },
-    data: { tenantId, role, status: userStatus },
+    data: { role, status: userStatus },
   });
 
   res.status(200).json({ message: "User approved", user: updatedUser });
