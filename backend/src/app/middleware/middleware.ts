@@ -6,7 +6,7 @@ import { UserRole } from "@prisma/client";
 import { AppError } from "../../utils/appError";
 
 export const authenticateUser = catchAsyncError<AuthRequest, Response>(
-  async (req: AuthRequest, res: Response, next: NextFunction) => {
+  async (req, res, next) => {
     const token = req.cookies.jwt;
 
     if (!token) {
@@ -52,17 +52,17 @@ export const authenticateUser = catchAsyncError<AuthRequest, Response>(
 export const authorizeRoles = (allowedRoles: UserRole[]) => {
   return (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
-      res.status(403).json({ message: "Access denied" });
+      next(new AppError("Unauthorized: No user found", 401));
       return;
     }
 
     if (req.user.status !== "APPROVED") {
-      res.status(403).json({ message: "User is not approved" });
+      next(new AppError("User is not approved", 403));
       return;
     }
 
     if (req.user.role && !allowedRoles.includes(req.user.role)) {
-      res.status(403).json({ message: "Insufficient permissions" });
+      next(new AppError("Insufficient permissions", 403));
       return;
     }
 
