@@ -28,14 +28,6 @@ export default [
     ]),
     layout("./layouts/AdminRouteLayout.tsx", [
       route("users", "routes/users.tsx"),
-      ...prefix("tasks", [
-        index("routes/tasks/index.tsx"),
-        route("new", "routes/tasks/new.tsx"),
-        route(":taskId", "routes/tasks/taskDetails.tsx"),
-        route(":taskId/edit", "routes/tasks/editTask.tsx"),
-        route(":taskId/assign", "routes/tasks/assignTask.tsx"),
-      ]),
-      route("my-tasks", "routes/tasks/myTasks.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;
