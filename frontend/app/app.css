@@ -55,3 +55,11 @@ body {
     color-scheme: dark;
   }
 }
+
+.background-gradient-primary {
+  @apply bg-background-dark/95 backdrop-blur-sm rounded-lg shadow-xl ring-1 ring-border-dark;
+}
+
+.text-gradient-primary {
+  @apply font-bold bg-gradient-to-r from-primary-dark to-accent-dark bg-clip-text text-transparent;
+}

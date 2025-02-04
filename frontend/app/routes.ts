@@ -8,15 +8,16 @@ import {
 
 export default [
   layout("./layouts/RootLayout.tsx", [
-    index("routes/home.tsx"),
-    ...prefix("tenants", [
-      index("routes/tenants.tsx"),
-      route("create", "routes/createTenant.tsx"),
-      route(":tenantId", "routes/editTenant.tsx"),
-    ]),
+    // ...prefix("tenants", [
+    //   index("routes/tenants.tsx"),
+    //   route("create", "routes/createTenant.tsx"),
+    //   route(":tenantId", "routes/editTenant.tsx"),
+    // ]),
     layout("./layouts/AuthLayout.tsx", [
       route("signin", "routes/signin.tsx"),
       route("signup", "routes/signup.tsx"),
     ]),
+    index("routes/home.tsx"),
+    route("unauthorized/:role?", "routes/unauthorized.tsx"),
   ]),
 ] satisfies RouteConfig;

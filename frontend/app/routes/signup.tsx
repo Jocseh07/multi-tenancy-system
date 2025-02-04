@@ -51,7 +51,7 @@ export default function Signup() {
     <div className="flex flex-col items-center justify-center space-y-8">
       <div className="text-center space-y-2">
         <div className="text-4xl mb-2">⚡</div>
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-dark to-accent-dark bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold text-gradient-primary">
           Create Account
         </h2>
         <p className="text-sm text-muted-foreground-dark">
@@ -80,7 +80,6 @@ export default function Signup() {
               placeholder="Enter your full name"
               type="text"
               ref={nameRef}
-              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
             />
           </div>
           <div>
@@ -96,7 +95,6 @@ export default function Signup() {
               placeholder="Enter your email"
               type="email"
               ref={emailRef}
-              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
             />
           </div>
           <div>
@@ -111,7 +109,6 @@ export default function Signup() {
               required
               placeholder="Enter your password"
               ref={passwordRef}
-              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
             />
           </div>
         </div>
@@ -121,7 +118,7 @@ export default function Signup() {
           size="large"
           loading={isLoading}
           onClick={handleSignUp}
-          className="w-full bg-gradient-to-r from-primary-dark to-accent-dark border-none hover:opacity-90 transition-opacity"
+          className="w-full"
         >
           {isLoading ? "Signing Up..." : "Sign Up"}
         </Button>

@@ -3,8 +3,12 @@ export type AuthResponseFrontend = {
     id: string;
     name: string;
     email: string;
-    role: "SUPER_ADMIN" | "TENANT_ADMIN" | "EMPLOYEE" | null;
+    role: UserRole | null;
     tenantId: string | null;
-    status: "APPROVED" | "PENDING" | "REJECTED";
+    status: UserStatus;
   };
 };
+
+export type UserRole = "SUPER_ADMIN" | "TENANT_ADMIN" | "EMPLOYEE";
+
+export type UserStatus = "APPROVED" | "PENDING" | "REJECTED";
