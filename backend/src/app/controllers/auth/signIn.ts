@@ -30,16 +30,17 @@ export const login = catchAsyncError<
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  console.log(isPasswordCorrect);
 
   if (!isPasswordCorrect) {
     next(new AppError("Invalid Email or Password", 401));
     return;
   }
 
-  if (user.status !== "APPROVED") {
-    next(new AppError("User is not approved", 401));
-    return;
-  }
+  // if (user.status !== "APPROVED") {
+  //   next(new AppError("User is not approved", 401));
+  //   return;
+  // }
 
   createSendToken(user, 200, res);
 });
