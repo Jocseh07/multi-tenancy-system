@@ -6,6 +6,7 @@ import { AppError } from "../../../utils/appError";
 
 type CreateTenantBody = {
   name: string;
+  description?: string;
 };
 
 type CreateTenantResponse = {
@@ -17,7 +18,7 @@ export const createTenant = catchAsyncError<
   Request<{}, {}, CreateTenantBody>,
   Response<CreateTenantResponse>
 >(async (req, res, next) => {
-  const { name } = req.body;
+  const { name, description } = req.body;
 
   if (!name) {
     next(new AppError("Name is required", 400));
@@ -25,7 +26,7 @@ export const createTenant = catchAsyncError<
   }
 
   const tenant = await prisma.tenant.create({
-    data: { name },
+    data: { name, description },
   });
 
   res.status(201).json({

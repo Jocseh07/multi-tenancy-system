@@ -6,6 +6,7 @@ import { AppError } from "../../../utils/appError";
 
 type UpdateTenantBody = {
   name: string;
+  description?: string;
 };
 
 type UpdateTenantParams = {
@@ -22,7 +23,7 @@ export const updateTenant = catchAsyncError<
   Response<UpdateTenantResponse>
 >(async (req, res, next) => {
   const { tenantId } = req.params;
-  const { name } = req.body;
+  const { name, description } = req.body;
 
   if (!name) {
     next(new AppError("Name is required", 400));
@@ -31,7 +32,7 @@ export const updateTenant = catchAsyncError<
 
   const tenant = await prisma.tenant.update({
     where: { id: tenantId },
-    data: { name },
+    data: { name, description },
   });
 
   res.status(200).json({

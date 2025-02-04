@@ -14,10 +14,11 @@ datasource db {
 }
 
 model Tenant {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String @unique
-  users User[]
-  tasks Task[]
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique
+  description String?
+  users       User[]
+  tasks       Task[]
 }
 
 model User {
