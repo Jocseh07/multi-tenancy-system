@@ -1,8 +1,9 @@
 import { Button, Input, type InputRef } from "antd";
 import type { Route } from "./+types/home";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { signUpSchema } from "~/types/schemas";
+import { useSignup } from "~/store/authStore";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,12 +12,14 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
+export default function Signup() {
+  const [isLoading, setIsLoading] = useState(false);
   const nameRef = useRef<InputRef>(null);
   const emailRef = useRef<InputRef>(null);
   const passwordRef = useRef<InputRef>(null);
+  const signup = useSignup();
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     const name = nameRef.current?.input?.value;
     const email = emailRef.current?.input?.value;
     const password = passwordRef.current?.input?.value;
@@ -29,86 +32,99 @@ export default function Home() {
       }
       return;
     }
+
+    setIsLoading(true);
+    try {
+      await signup(
+        validated.data.name,
+        validated.data.email,
+        validated.data.password
+      );
+    } catch (error) {
+      // Error is already handled by toast.promise in the auth store
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 p-8 bg-background-dark rounded-lg shadow-lg">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground-dark">
-            Create a new account
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground-dark">
-            Or{" "}
-            <a
-              href="/signin"
-              className="font-medium text-primary-dark hover:text-muted-foreground-dark"
-            >
-              sign in to your account
-            </a>
-          </p>
-        </div>
-        <div className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-foreground-dark"
-              >
-                Full Name
-              </label>
-              <Input
-                size="large"
-                required
-                placeholder="Enter your full name"
-                type="text"
-                ref={nameRef}
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-foreground-dark"
-              >
-                Email address
-              </label>
-              <Input
-                size="large"
-                required
-                placeholder="Enter your email"
-                type="email"
-                ref={emailRef}
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-foreground-dark"
-              >
-                Password
-              </label>
-              <Input
-                size="large"
-                required
-                placeholder="Enter your password"
-                ref={passwordRef}
-                type="password"
-                className="mt-1"
-              />
-            </div>
-          </div>
-
-          <Button
-            type="primary"
-            size="large"
-            onClick={handleSignUp}
-            className="w-full flex justify-center py-2 px-4"
+    <div className="flex flex-col items-center justify-center space-y-8">
+      <div className="text-center space-y-2">
+        <div className="text-4xl mb-2">⚡</div>
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-dark to-accent-dark bg-clip-text text-transparent">
+          Create Account
+        </h2>
+        <p className="text-sm text-muted-foreground-dark">
+          Or{" "}
+          <a
+            href="/signin"
+            className="font-medium text-primary-dark hover:text-accent-dark transition-colors"
           >
-            Sign Up
-          </Button>
+            sign in to your account
+          </a>
+        </p>
+      </div>
+
+      <div className="w-full space-y-6">
+        <div className="space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-foreground-dark"
+            >
+              Full Name
+            </label>
+            <Input
+              size="large"
+              required
+              placeholder="Enter your full name"
+              type="text"
+              ref={nameRef}
+              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-foreground-dark"
+            >
+              Email address
+            </label>
+            <Input
+              size="large"
+              required
+              placeholder="Enter your email"
+              type="email"
+              ref={emailRef}
+              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-foreground-dark"
+            >
+              Password
+            </label>
+            <Input.Password
+              size="large"
+              required
+              placeholder="Enter your password"
+              ref={passwordRef}
+              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
+            />
+          </div>
         </div>
+
+        <Button
+          type="primary"
+          size="large"
+          loading={isLoading}
+          onClick={handleSignUp}
+          className="w-full bg-gradient-to-r from-primary-dark to-accent-dark border-none hover:opacity-90 transition-opacity"
+        >
+          {isLoading ? "Signing Up..." : "Sign Up"}
+        </Button>
       </div>
     </div>
   );

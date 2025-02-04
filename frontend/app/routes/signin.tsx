@@ -1,9 +1,9 @@
 import { Button, Input, type InputRef } from "antd";
 import type { Route } from "./+types/home";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { signInSchema } from "~/types/schemas";
-
+import { useSignin, useUser } from "~/store/authStore";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Login" },
@@ -12,16 +12,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef<InputRef>(null);
   const passwordRef = useRef<InputRef>(null);
+  const signin = useSignin();
+  const user = useUser();
+  console.log(user);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     const email = emailRef.current?.input?.value;
     const password = passwordRef.current?.input?.value;
     const formData = { email, password };
     const validated = signInSchema.safeParse(formData);
-
-    console.log(validated.error?.errors);
 
     if (!validated.success) {
       for (const error of validated.error?.errors ?? []) {
@@ -29,70 +31,77 @@ export default function Home() {
       }
       return;
     }
+    setIsLoading(true);
+    try {
+      await signin(validated.data.email, validated.data.password);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="max-w-md w-full space-y-8 p-8 bg-background-dark rounded-lg shadow-lg">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-foreground-dark">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground-dark">
-            Or{" "}
-            <a
-              href="/signup"
-              className="font-medium text-primary-dark hover:text-muted-foreground-dark"
-            >
-              create a new account
-            </a>
-          </p>
-        </div>
-        <div className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-foreground-dark"
-              >
-                Email address
-              </label>
-              <Input
-                size="large"
-                required
-                placeholder="Enter your email"
-                type="email"
-                ref={emailRef}
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-foreground-dark"
-              >
-                Password
-              </label>
-              <Input
-                size="large"
-                required
-                placeholder="Enter your password"
-                ref={passwordRef}
-                type="password"
-                className="mt-1"
-              />
-            </div>
-          </div>
-
-          <Button
-            type="primary"
-            size="large"
-            onClick={handleSignIn}
-            className="w-full flex justify-center py-2 px-4"
+    <div className="flex flex-col items-center justify-center space-y-8">
+      <div className="text-center space-y-2">
+        <div className="text-4xl mb-2">⚡</div>
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-dark to-accent-dark bg-clip-text text-transparent">
+          Welcome Back
+        </h2>
+        <p className="text-sm text-muted-foreground-dark">
+          Or{" "}
+          <a
+            href="/signup"
+            className="font-medium text-primary-dark hover:text-accent-dark transition-colors"
           >
-            Sign In
-          </Button>
+            create a new account
+          </a>
+        </p>
+      </div>
+
+      <div className="w-full space-y-6">
+        <div className="space-y-4">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-foreground-dark"
+            >
+              Email address
+            </label>
+            <Input
+              size="large"
+              required
+              placeholder="Enter your email"
+              type="email"
+              ref={emailRef}
+              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-foreground-dark"
+            >
+              Password
+            </label>
+            <Input.Password
+              size="large"
+              required
+              placeholder="Enter your password"
+              ref={passwordRef}
+              className="mt-1 hover:border-primary-dark focus:border-primary-dark"
+            />
+          </div>
         </div>
+
+        <Button
+          type="primary"
+          size="large"
+          loading={isLoading}
+          onClick={handleSignIn}
+          className="w-full bg-gradient-to-r from-primary-dark to-accent-dark border-none hover:opacity-90 transition-opacity"
+        >
+          {isLoading ? "Signing In..." : "Sign In"}
+        </Button>
       </div>
     </div>
   );
