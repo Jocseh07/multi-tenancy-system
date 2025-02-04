@@ -20,6 +20,13 @@ export function NavButtons() {
           </Button>
         </Link>
       )}
+      {(isSuperAdmin || isTenantAdmin) && (
+        <Link to="/users">
+          <Button type="primary" size="large">
+            Users
+          </Button>
+        </Link>
+      )}
     </div>
   );
 }

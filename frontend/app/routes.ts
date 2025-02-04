@@ -26,5 +26,8 @@ export default [
         route(":tenantId", "routes/editTenant.tsx"),
       ]),
     ]),
+    layout("./layouts/AdminRouteLayout.tsx", [
+      route("users", "routes/users.tsx"),
+    ]),
   ]),
 ] satisfies RouteConfig;

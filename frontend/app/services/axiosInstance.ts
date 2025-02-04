@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useSignout } from "~/store/authStore";
+import { useAuthStore } from "~/store/authStore";
 
 // const apiUrl = import.meta.env.API_URL;
 const apiUrl = "http://localhost:3000/api/v1";
@@ -13,7 +13,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      const signOut = useSignout();
+      const signOut = useAuthStore.getState().signout;
       signOut();
       window.location.href = "/signin";
     }

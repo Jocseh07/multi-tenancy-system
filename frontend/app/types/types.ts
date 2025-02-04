@@ -12,3 +12,13 @@ export type AuthResponseFrontend = {
 export type UserRole = "SUPER_ADMIN" | "TENANT_ADMIN" | "EMPLOYEE";
 
 export type UserStatus = "APPROVED" | "PENDING" | "REJECTED";
+
+export type User = {
+  name: string;
+  id: string;
+  tenantId: string | null;
+  email: string;
+  password: string;
+  role: UserRole | null;
+  status: UserStatus;
+};
