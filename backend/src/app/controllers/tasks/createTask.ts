@@ -5,13 +5,13 @@ import { Request, Response } from "express";
 import { prisma } from "../../../../server";
 import { AppError } from "../../../utils/appError";
 
-type CreateTaskBody = Omit<Task, "id" | "tenantId" | "tenant">;
+type CreateTaskBody = Omit<Task, "id" | "tenantId" | "tenant" | "assignedTo">;
 
 export const createTask = catchAsyncError<
   Request<{}, {}, CreateTaskBody> & { user?: TokenPayload },
   Response<Task>
 >(async (req, res, next) => {
-  const { title, description, status, assignedTo } = req.body;
+  const { title, description, status } = req.body;
 
   if (!title || !description) {
     next(new AppError("Missing required fields", 400));
@@ -25,14 +25,14 @@ export const createTask = catchAsyncError<
     return;
   }
 
+  const taskData: CreateTaskBody = {
+    title,
+    description,
+    status,
+  };
+
   const task = await prisma.task.create({
-    data: {
-      title,
-      description,
-      status,
-      assignedTo,
-      tenantId,
-    },
+    data: taskData,
   });
 
   res.status(201).json(task);

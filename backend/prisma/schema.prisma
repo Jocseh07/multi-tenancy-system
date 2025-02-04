@@ -40,8 +40,8 @@ model Task {
   status       TaskStatus @default(TODO)
   assignedTo   String?    @db.ObjectId
   assignedUser User?      @relation(fields: [assignedTo], references: [id])
-  tenantId     String     @db.ObjectId
-  tenant       Tenant     @relation(fields: [tenantId], references: [id])
+  tenantId     String?    @db.ObjectId
+  tenant       Tenant?    @relation(fields: [tenantId], references: [id])
 }
 
 enum UserRole {

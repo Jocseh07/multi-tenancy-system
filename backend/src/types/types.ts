@@ -1,4 +1,4 @@
-import { UserStatus, UserRole } from "@prisma/client";
+import { UserStatus, UserRole, Task, TaskStatus } from "@prisma/client";
 import { Request } from "express";
 
 export interface AuthRequest extends Request {
@@ -26,3 +26,4 @@ export type AuthResponseBody = {
   // token: string;
   // status: "success";
 };
+
