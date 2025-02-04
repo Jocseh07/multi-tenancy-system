@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { AuthButtons } from "./AuthButtonts";
+import { NavButtons } from "./NavButtons";
 
 export default function NavBar() {
   return (
@@ -10,8 +11,10 @@ export default function NavBar() {
           MultiTenant
         </Link>
       </div>
-
-      <AuthButtons />
+      <div className="flex items-center gap-2">
+        <NavButtons />
+        <AuthButtons />
+      </div>
     </div>
   );
 }

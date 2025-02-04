@@ -1,9 +1,9 @@
 import { Button, Input, type InputRef } from "antd";
-import type { Route } from "./+types/home";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { signInSchema } from "~/types/schemas";
 import { useSignin, useUser } from "~/store/authStore";
+import type { Route } from "./+types/signin";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Login" },
@@ -11,7 +11,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
+export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef<InputRef>(null);
   const passwordRef = useRef<InputRef>(null);

@@ -1,9 +1,9 @@
 import { Button, Input, type InputRef } from "antd";
-import type { Route } from "./+types/home";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { signUpSchema } from "~/types/schemas";
 import { useSignup } from "~/store/authStore";
+import type { Route } from "./+types/signup";
 
 export function meta({}: Route.MetaArgs) {
   return [

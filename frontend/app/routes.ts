@@ -19,5 +19,12 @@ export default [
     ]),
     index("routes/home.tsx"),
     route("unauthorized/:role?", "routes/unauthorized.tsx"),
+    layout("./layouts/SuperAdminRouteLayout.tsx", [
+      ...prefix("tenants", [
+        index("routes/tenants.tsx"),
+        route("create", "routes/createTenant.tsx"),
+        route(":tenantId", "routes/editTenant.tsx"),
+      ]),
+    ]),
   ]),
 ] satisfies RouteConfig;
