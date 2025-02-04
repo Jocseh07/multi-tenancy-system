@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router";
 import { useAuthStore } from "~/store/authStore";
-import type { UserRole } from "~/types/types";
 
 export const Authenticated = ({
   children,
-  role,
+  superAdmin,
+  tenantAdmin,
 }: {
   children: React.ReactNode;
-  role?: UserRole;
+  superAdmin?: boolean;
+  tenantAdmin?: boolean;
 }) => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
@@ -17,10 +18,21 @@ export const Authenticated = ({
     return null;
   }
 
-  if (user.data.role && role && user.data.role !== role) {
-    navigate(`/unauthorized/${role}`);
+  const isSuperAdmin = user.data.role === "SUPER_ADMIN";
+  const isTenantAdmin = user.data.role === "TENANT_ADMIN";
+
+  // If superAdmin flag is set, only allow super admins
+  if (superAdmin && !isSuperAdmin) {
+    navigate(`/unauthorized?role=${user.data.role}`);
     return null;
   }
 
+  // If tenantAdmin flag is set, allow both tenant admins and super admins
+  if (tenantAdmin && !isSuperAdmin && !isTenantAdmin) {
+    navigate(`/unauthorized?role=${user.data.role}`);
+    return null;
+  }
+
+  // If no flags set or conditions pass, render children
   return children;
 };

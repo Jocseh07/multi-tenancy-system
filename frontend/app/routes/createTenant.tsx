@@ -48,7 +48,7 @@ export default function CreateTenant() {
   };
 
   return (
-    <Authenticated role="SUPER_ADMIN">
+    <Authenticated superAdmin>
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="background-gradient-primary p-8">
